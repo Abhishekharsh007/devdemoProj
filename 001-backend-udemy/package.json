@@ -1,0 +1,17 @@
+{
+  "name": "001-backend-udemy",
+  "version": "1.0.0",
+  "description": "A backend project for beginner",
+  "keywords": [
+    "backend",
+    "API",
+    "basic",
+    "setup"
+  ],
+  "author": "Abhishek",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node index.js"
+  }
+}
