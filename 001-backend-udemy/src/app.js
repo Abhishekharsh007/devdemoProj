@@ -18,12 +18,8 @@ app.use(
   }),
 );
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
-app.get("/instagram", (req, res) => {
-  res.send("This is an instagram page");
-});
+// import the routes
+import healthCheckRouter from "./routes/healthcheck.routes.js";
+app.use("/api/v1/healthcheck", healthCheckRouter);
 
 export default app;
