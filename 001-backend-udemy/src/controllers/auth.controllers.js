@@ -154,7 +154,7 @@ const verifyEmail = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Email Verification token is missing!");
     }
 
-    let hashedToken = crypto.createHash("sha256").update(verificationToken).digest("hex");
+    const hashedToken = crypto.createHash("sha256").update(verificationToken).digest("hex");
 
     const user = await User.findOne({
         emailVerificationToken: hashedToken,
@@ -188,7 +188,7 @@ const resendEmailVerification = asyncHandler(async (req, res) => {
     if (!user) { 
         throw new ApiError(404, "User does not exists!");
     }
-    if (!user.isEmailVerified) { 
+    if (user.isEmailVerified) { 
         throw new ApiError(409, "Email is already verified!"); 
     }
 
@@ -197,7 +197,7 @@ const resendEmailVerification = asyncHandler(async (req, res) => {
     user.emailVerificationToken = hashedToken;
     user.emailVerificationExpiry = tokenExpiry;
 
-    await User.save({ validateBeforeSave: false });
+    await user.save({ validateBeforeSave: false });
     await sendEmail(
         { 
             email: user?.email,
@@ -298,7 +298,7 @@ const resetForgotPassword = asyncHandler(async (req, res) => {
     const { resetToken } = req.params;
     const { newPassword } = req.body;
 
-    let hashedToken = crypto.createHash("sha256").update(resetToken).digest("hex");
+    const hashedToken = crypto.createHash("sha256").update(resetToken).digest("hex");
 
     const user = await User.findOne({
         forgotPasswordToken: hashedToken,
